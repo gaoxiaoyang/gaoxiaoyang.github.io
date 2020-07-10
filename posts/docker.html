@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="docker 参考资料Docker 入门教程 安装 docker123456curl -fsSL https://get.docker.com -o get-docker.shsudo sh get-docker.shsudo service docker startsudo usermod -aG docker $USERnewgrp docker # 添加到启动指令中docker image">
+<meta name="keywords" content="Docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker">
+<meta property="og:url" content="http://yoursite.com/posts/docker.html">
+<meta property="og:site_name" content="饼干 blog">
+<meta property="og:description" content="docker 参考资料Docker 入门教程 安装 docker123456curl -fsSL https://get.docker.com -o get-docker.shsudo sh get-docker.shsudo service docker startsudo usermod -aG docker $USERnewgrp docker # 添加到启动指令中docker image">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-07-09T08:16:35.980Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker">
+<meta name="twitter:description" content="docker 参考资料Docker 入门教程 安装 docker123456curl -fsSL https://get.docker.com -o get-docker.shsudo sh get-docker.shsudo service docker startsudo usermod -aG docker $USERnewgrp docker # 添加到启动指令中docker image">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/posts/docker">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Docker | 饼干 blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">饼干 blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/docker.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="BG">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="饼干 blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Docker
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-29 15:30:00" itemprop="dateCreated datePublished" datetime="2019-11-29T15:30:00+08:00">2019-11-29</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-09 16:16:35" itemprop="dateModified" datetime="2020-07-09T16:16:35+08:00">2020-07-09</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="docker-参考资料"><a href="#docker-参考资料" class="headerlink" title="docker 参考资料"></a>docker 参考资料</h2><p><a href="http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html" target="_blank" rel="noopener">Docker 入门教程</a></p>
+<h2 id="安装-docker"><a href="#安装-docker" class="headerlink" title="安装 docker"></a>安装 docker</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://get.docker.com -o get-docker.sh</span><br><span class="line">sudo sh get-docker.sh</span><br><span class="line">sudo service docker start</span><br><span class="line">sudo usermod -aG docker <span class="variable">$USER</span></span><br><span class="line">newgrp docker <span class="comment"># 添加到启动指令中</span></span><br><span class="line">docker image pull ubuntu:16.04</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="安装-ctop"><a href="#安装-ctop" class="headerlink" title="安装 ctop"></a>安装 ctop</h2><p><a href="https://github.com/bcicen/ctop" target="_blank" rel="noopener">ctop</a> 可以监听 docker 容器的计算机资源占用信息。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo wget https://github.com/bcicen/ctop/releases/download/v0.7.2/ctop-0.7.2-linux-amd64 -O /usr/<span class="built_in">local</span>/bin/ctop</span><br><span class="line">sudo chmod +x /usr/<span class="built_in">local</span>/bin/ctop</span><br></pre></td></tr></table></figure>
+<h2 id="安装-CUDA-支持"><a href="#安装-CUDA-支持" class="headerlink" title="安装 CUDA 支持"></a>安装 CUDA 支持</h2><p><a href="https://cloud.tencent.com/developer/article/1453411" target="_blank" rel="noopener">启用Docker虚拟机GPU，加速深度学习</a></p>
+<h3 id="建立系统服务"><a href="#建立系统服务" class="headerlink" title="建立系统服务"></a>建立系统服务</h3><p>建立目录<code>sudo mkdir /usr/lib/systemd/system</code>，新增文件<code>/usr/lib/systemd/system/nvidia-persistenced.service</code>：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=NVIDIA Persistence Daemon</span><br><span class="line"><span class="attr">Wants</span>=syslog.target[Service]</span><br><span class="line"><span class="attr">Type</span>=forking</span><br><span class="line"><span class="attr">PIDFile</span>=/var/run/nvidia-persistenced/nvidia-persistenced.pid</span><br><span class="line"><span class="attr">Restart</span>=always</span><br><span class="line"><span class="attr">ExecStart</span>=/usr/bin/nvidia-persistenced --verbose</span><br><span class="line"><span class="attr">ExecStopPost</span>=/bin/rm -rf /var/run/nvidia-persistenced[Install]</span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
+<p>启用服务：<code>sudo systemctl enable nvidia-persistenced</code></p>
+<h3 id="禁用-UDEV-规则中的-memory-子系统规则"><a href="#禁用-UDEV-规则中的-memory-子系统规则" class="headerlink" title="禁用 UDEV 规则中的 memory 子系统规则"></a>禁用 UDEV 规则中的 memory 子系统规则</h3><p>修改<code>/udev/rules.d/40-vm-hotadd.rules</code>，注释如下语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># SUBSYSTEM==&quot;memory&quot;, ACTION==&quot;add&quot;, DEVPATH==&quot;/devices/system/memory/memory[0-9]*&quot;, TEST==&quot;state&quot;, ATTR&#123;state&#125;=&quot;online&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="安装-Nvidia-Docker"><a href="#安装-Nvidia-Docker" class="headerlink" title="安装 Nvidia Docker"></a>安装 Nvidia Docker</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Install nvidia-docker2 and reload the Docker daemon configuration</span></span><br><span class="line">sudo apt-get install -y nvidia-docker2</span><br><span class="line">sudo pkill -SIGHUP dockerd</span><br></pre></td></tr></table></figure>
+<h3 id="下载-Docker-Image"><a href="#下载-Docker-Image" class="headerlink" title="下载 Docker Image"></a>下载 Docker Image</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker image pull nvidia/cuda</span><br><span class="line">docker image pull tensorflow/tensorflow:latest-gpu</span><br></pre></td></tr></table></figure>
+<h3 id="建立容器"><a href="#建立容器" class="headerlink" title="建立容器"></a>建立容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --runtime=nvidia --rm nvidia/cuda nvidia-smi</span><br></pre></td></tr></table></figure>
+<h2 id="docker-image-指令"><a href="#docker-image-指令" class="headerlink" title="docker image 指令"></a>docker image 指令</h2><h2 id="拉取-image-文件"><a href="#拉取-image-文件" class="headerlink" title="拉取 image 文件"></a>拉取 image 文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image pull group/image[:tag]</span><br></pre></td></tr></table></figure>
+<p>镜像列表详见官方 <a href="https://hub.docker.com/" target="_blank" rel="noopener">Docker Hub</a>。</p>
+<h2 id="列出本机的所有-image-文件"><a href="#列出本机的所有-image-文件" class="headerlink" title="列出本机的所有 image 文件"></a>列出本机的所有 image 文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image ls</span><br></pre></td></tr></table></figure>
+<h2 id="删除-image-文件"><a href="#删除-image-文件" class="headerlink" title="删除 image 文件"></a>删除 image 文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image rm [imageName]</span><br></pre></td></tr></table></figure>
+<h2 id="提交镜像修改"><a href="#提交镜像修改" class="headerlink" title="提交镜像修改"></a>提交镜像修改</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker commit -m <span class="string">"message"</span> -a <span class="string">"user"</span> containerID group/image:tag</span><br></pre></td></tr></table></figure>
+<p>可自定义新的仓库名和镜像名。</p>
+<h2 id="保存镜像到文件"><a href="#保存镜像到文件" class="headerlink" title="保存镜像到文件"></a>保存镜像到文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker save -o FILE IMAGE</span><br></pre></td></tr></table></figure>
+<h2 id="从文件载入镜像"><a href="#从文件载入镜像" class="headerlink" title="从文件载入镜像"></a>从文件载入镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker load --input FILE</span><br></pre></td></tr></table></figure>
+<h2 id="docker-container-指令"><a href="#docker-container-指令" class="headerlink" title="docker container 指令"></a>docker container 指令</h2><h3 id="新建容器实例"><a href="#新建容器实例" class="headerlink" title="新建容器实例"></a>新建容器实例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container run [--name containerName] [-p container:host] [-idt] [image][:tag] [cmd]</span><br></pre></td></tr></table></figure>
+<p>该指令若在本地未找到对应的 image，则会从服务器自动拉取。</p>
+<ul>
+<li><code>--name</code> 指定容器名称</li>
+<li><code>-p</code> 将容器的端口映射到本机端口。</li>
+<li><code>-i</code> 保持容器<code>STDIN</code>开启，即使并未连接至容器。</li>
+<li><code>-d</code> 令容器的<code>cmd</code>在后台运行。</li>
+<li><code>-t</code> 将当前终端连接至容器。</li>
+<li><code>-it</code> 容器的 Shell 映射到当前的 Shell，然后你在本机窗口输入的命令，就会传入容器。</li>
+<li><code>cmd</code> 容器启动后默认执行的程序，一般为 Shell，如<code>/bin/bash</code>。</li>
+</ul>
+<p>docker容器的<code>run</code>指令的<code>cmd</code>进程必须是前台程序，或者持续挂起（如<code>top</code>），否则运行完毕后会容器会自动关闭，使用<code>-id</code>将非挂起进程置于后台持续监听<code>STDIN</code>，可以避免容器自动关闭。</p>
+<h2 id="列出本机正在运行的容器"><a href="#列出本机正在运行的容器" class="headerlink" title="列出本机正在运行的容器"></a>列出本机正在运行的容器</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container ls [-a]</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>-a</code> 显示所有容器，包括已关闭的</li>
+</ul>
+<h2 id="列出本机所有容器，包括终止运行的容器"><a href="#列出本机所有容器，包括终止运行的容器" class="headerlink" title="列出本机所有容器，包括终止运行的容器"></a>列出本机所有容器，包括终止运行的容器</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container ls --all</span><br></pre></td></tr></table></figure>
+<h2 id="停止指定的容器运行"><a href="#停止指定的容器运行" class="headerlink" title="停止指定的容器运行"></a>停止指定的容器运行</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container <span class="built_in">kill</span> containerID</span><br></pre></td></tr></table></figure>
+<h2 id="删除指定的容器文件"><a href="#删除指定的容器文件" class="headerlink" title="删除指定的容器文件"></a>删除指定的容器文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container rm containerID</span><br></pre></td></tr></table></figure>
+<h2 id="启动现存容器"><a href="#启动现存容器" class="headerlink" title="启动现存容器"></a>启动现存容器</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container start containerID</span><br></pre></td></tr></table></figure>
+<h2 id="停止现存容器"><a href="#停止现存容器" class="headerlink" title="停止现存容器"></a>停止现存容器</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container stop containerID</span><br></pre></td></tr></table></figure>
+<h2 id="查看容器-shell-标准输出"><a href="#查看容器-shell-标准输出" class="headerlink" title="查看容器 shell 标准输出"></a>查看容器 shell 标准输出</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container logs containerID</span><br></pre></td></tr></table></figure>
+<h2 id="进入正在运行的容器"><a href="#进入正在运行的容器" class="headerlink" title="进入正在运行的容器"></a>进入正在运行的容器</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container <span class="built_in">exec</span> -it containerID /bin/bash</span><br></pre></td></tr></table></figure>
+<h2 id="从正在运行的容器中拷贝文件到本机当前目录"><a href="#从正在运行的容器中拷贝文件到本机当前目录" class="headerlink" title="从正在运行的容器中拷贝文件到本机当前目录"></a>从正在运行的容器中拷贝文件到本机当前目录</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container cp containID:/path/to/file localPath</span><br></pre></td></tr></table></figure>
+<h1 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h1><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://docs.docker.com/engine/reference/builder/" target="_blank" rel="noopener">Docker Documentation - Dockerfile Reference</a></p>
+<h2 id="编写-Dockerfile"><a href="#编写-Dockerfile" class="headerlink" title="编写 Dockerfile"></a>编写 Dockerfile</h2><p>在项目根目录下，建立<code>.dockerignore</code>文件，记录不打包到镜像中的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.git</span><br></pre></td></tr></table></figure>
+<p>在项目根目录下，建立<code>Dockerfile</code>文件：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> &lt;image&gt;[:&lt;tag&gt;] [AS &lt;name&gt;]</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /path/to/workdir</span></span><br><span class="line"><span class="bash">SHELL [<span class="string">"executable"</span>, <span class="string">"parameters"</span>]</span></span><br><span class="line"><span class="bash">COPY [--chown=&lt;user&gt;:&lt;group&gt;] &lt;src&gt;... &lt;dest&gt;</span></span><br><span class="line"><span class="bash">RUN &lt;<span class="built_in">command</span>&gt;</span></span><br><span class="line"><span class="bash">EXPOSE &lt;port&gt; [&lt;port&gt;/&lt;protocol&gt;...]</span></span><br><span class="line"><span class="bash">ENV &lt;key&gt; &lt;value&gt;</span></span><br><span class="line"><span class="bash">ADD [--chown=&lt;user&gt;:&lt;group&gt;] &lt;src&gt;... &lt;dest&gt;</span></span><br><span class="line"><span class="bash">ENTRYPOINT [<span class="string">"executable"</span>, <span class="string">"param1"</span>, <span class="string">"param2"</span>]</span></span><br><span class="line"><span class="bash">CMD <span class="built_in">command</span> param1 param2</span></span><br><span class="line"><span class="bash">LABEL &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; ...</span></span><br><span class="line"><span class="bash">VOLUME [<span class="string">"/data"</span>]</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>FROM</code> 使用的父镜像源。</li>
+<li><code>WORKDIR</code> 镜像构建过程中的工作路径。</li>
+<li><code>SHELL</code> 指定运行<code>RUN</code>、<code>CMD</code> 和<code>ENTRYPOINT</code>的 shell指令，如<code>SHELL [&quot;/bin/bash&quot;, &quot;-c&quot;]</code>。Linux 中默认为<code>/bin/sh -c</code>，Windows 中默认为<code>cmd /S /C</code>。</li>
+<li><code>COPY</code> 将文件或目录复制到镜像中的目的地址，目的路径会自动创建，只可使用项目目录下的内容。<ul>
+<li><code>COPY [--chown=&lt;user&gt;:&lt;group&gt;] &lt;src&gt;... &lt;dest&gt;</code> 默认格式。</li>
+<li><code>COPY [--chown=&lt;user&gt;:&lt;group&gt;] [&quot;&lt;src&gt;&quot;,... &quot;&lt;dest&gt;&quot;]</code> 若路径中包含空格。</li>
+</ul>
+</li>
+<li><code>RUN</code> 镜像构建过程中执行的指令，可编写多条顺序执行。每条指令会在新的容器层执行，可使用<code>;</code>在同一层容器中执行多条指令，并可使用<code>\</code>分行。</li>
+<li><code>RUN &lt;command&gt;</code> shell 模式，使用<code>SHELL</code>运行。<ul>
+<li><code>RUN [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</code> exec 模式，使用 json 格式，不会启动 shell。</li>
+</ul>
+</li>
+<li><code>EXPOSE</code> 告知该容器可能暴露的端口，协议可使用<code>tcp</code>或<code>udp</code>，默认为<code>tcp</code>。仅作提示使用，实际启动容器时需通过<code>-p</code>指令转发端口。</li>
+<li><p><code>ENV</code>设置容器的环境变量，带空格的值可用引号包含，或使用<code>\</code>转义。</p>
+<ul>
+<li><p><code>ENV &lt;key&gt; &lt;value&gt;</code></p>
+</li>
+<li><p>`ENV <key>=<value> …</value></key></p>
+</li>
+</ul>
+</li>
+<li><code>ADD</code> 将文件或目录复制到镜像中的目的地址，目的路径会自动创建，也可编写多条<code>ADD</code>顺序执行，只可使用项目目录下的内容。</li>
+<li><code>ADD [--chown=&lt;user&gt;:&lt;group&gt;] &lt;src&gt;... &lt;dest&gt;</code> 默认格式。<ul>
+<li><code>ADD [--chown=&lt;user&gt;:&lt;group&gt;] [&quot;&lt;src&gt;&quot;,... &quot;&lt;dest&gt;&quot;]</code> 若路径中包含空格。</li>
+</ul>
+</li>
+<li><code>ENTRYPOINT</code> 让镜像模拟为一个可执行程序进行启动。<ul>
+<li><code>ENTRYPOINT [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</code> exec 模式，使用 json 格式，为默认使用模式，该模式下，会将<code>CMD</code>作为运行参数进行追加。如果用户启动容器时在<code>docker run &lt;image&gt;</code>之后追加参数，则会覆盖<code>CMD</code>参数。</li>
+<li><code>ENTRYPOINT command param1 param2</code> shell 模式，使用<code>SHELL</code>执行，但此方式启动的程序不包含<code>PID 1</code>，无法接收 Unix 信号，如在执行<code>docker stop &lt;container&gt;</code>时，用户程序不会接收到<code>SIGTERM</code>信号。</li>
+</ul>
+</li>
+<li><code>CMD</code> 镜像启动后执行的指令，可编写多条顺序执行。</li>
+<li><code>CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;]</code> 推荐使用，exec 模式，使用 json 格式，不会启动 shell。<ul>
+<li><code>CMD [&quot;param1&quot;,&quot;param2&quot;]</code> 使用 json 格式，会作为初始化参数追加到<code>ENTRYPOINT</code>之后。</li>
+<li><code>CMD command param1 param2</code> shell 格式。</li>
+</ul>
+</li>
+<li><code>LABEL</code> 容器元信息，多条标签可用<code>\</code>换行，也可使用多条<code>LABEL</code>指令，遵循 json 格式。</li>
+<li><code>VOLUME</code> 创建一个或多个挂载点，在容器创建时自动将其挂载至创建者（原生系统或另一容器），挂载点路径需已存在。</li>
+</ul>
+<h2 id="执行-docker-image-build"><a href="#执行-docker-image-build" class="headerlink" title="执行 docker image build"></a>执行 docker image build</h2><p><code>Dockerfile</code>中的指令会被顺序执行。</p>
+<h1 id="容器内相关"><a href="#容器内相关" class="headerlink" title="容器内相关"></a>容器内相关</h1><h2 id="查看容器中的系统版本"><a href="#查看容器中的系统版本" class="headerlink" title="查看容器中的系统版本"></a>查看容器中的系统版本</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/issue</span><br></pre></td></tr></table></figure>
+<h2 id="Docker-执行-GUI-程序"><a href="#Docker-执行-GUI-程序" class="headerlink" title="Docker 执行 GUI 程序"></a>Docker 执行 GUI 程序</h2><p><a href="https://github.com/mviereck/x11docker" target="_blank" rel="noopener">x11docker</a><br><a href="https://zhuanlan.zhihu.com/p/60073751" target="_blank" rel="noopener">x11docker：让你的Docker跑图形程序</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Docker/" rel="tag"># Docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/ffplay.html" rel="next" title="ffplay">
+                <i class="fa fa-chevron-left"></i> ffplay
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/grep.html" rel="prev" title="linux cmd">
+                linux cmd <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">BG</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/gaoxiaoyang" title="GitHub &rarr; https://github.com/gaoxiaoyang" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-参考资料"><span class="nav-number">1.</span> <span class="nav-text">docker 参考资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-docker"><span class="nav-number">2.</span> <span class="nav-text">安装 docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-ctop"><span class="nav-number">3.</span> <span class="nav-text">安装 ctop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-CUDA-支持"><span class="nav-number">4.</span> <span class="nav-text">安装 CUDA 支持</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立系统服务"><span class="nav-number">4.1.</span> <span class="nav-text">建立系统服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#禁用-UDEV-规则中的-memory-子系统规则"><span class="nav-number">4.2.</span> <span class="nav-text">禁用 UDEV 规则中的 memory 子系统规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Nvidia-Docker"><span class="nav-number">4.3.</span> <span class="nav-text">安装 Nvidia Docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载-Docker-Image"><span class="nav-number">4.4.</span> <span class="nav-text">下载 Docker Image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立容器"><span class="nav-number">4.5.</span> <span class="nav-text">建立容器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-image-指令"><span class="nav-number">5.</span> <span class="nav-text">docker image 指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拉取-image-文件"><span class="nav-number">6.</span> <span class="nav-text">拉取 image 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列出本机的所有-image-文件"><span class="nav-number">7.</span> <span class="nav-text">列出本机的所有 image 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除-image-文件"><span class="nav-number">8.</span> <span class="nav-text">删除 image 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提交镜像修改"><span class="nav-number">9.</span> <span class="nav-text">提交镜像修改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保存镜像到文件"><span class="nav-number">10.</span> <span class="nav-text">保存镜像到文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从文件载入镜像"><span class="nav-number">11.</span> <span class="nav-text">从文件载入镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-container-指令"><span class="nav-number">12.</span> <span class="nav-text">docker container 指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新建容器实例"><span class="nav-number">12.1.</span> <span class="nav-text">新建容器实例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列出本机正在运行的容器"><span class="nav-number">13.</span> <span class="nav-text">列出本机正在运行的容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#列出本机所有容器，包括终止运行的容器"><span class="nav-number">14.</span> <span class="nav-text">列出本机所有容器，包括终止运行的容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#停止指定的容器运行"><span class="nav-number">15.</span> <span class="nav-text">停止指定的容器运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除指定的容器文件"><span class="nav-number">16.</span> <span class="nav-text">删除指定的容器文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动现存容器"><span class="nav-number">17.</span> <span class="nav-text">启动现存容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#停止现存容器"><span class="nav-number">18.</span> <span class="nav-text">停止现存容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看容器-shell-标准输出"><span class="nav-number">19.</span> <span class="nav-text">查看容器 shell 标准输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进入正在运行的容器"><span class="nav-number">20.</span> <span class="nav-text">进入正在运行的容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从正在运行的容器中拷贝文件到本机当前目录"><span class="nav-number">21.</span> <span class="nav-text">从正在运行的容器中拷贝文件到本机当前目录</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#构建镜像"><span class="nav-number"></span> <span class="nav-text">构建镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">1.</span> <span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写-Dockerfile"><span class="nav-number">2.</span> <span class="nav-text">编写 Dockerfile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行-docker-image-build"><span class="nav-number">3.</span> <span class="nav-text">执行 docker image build</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#容器内相关"><span class="nav-number"></span> <span class="nav-text">容器内相关</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#查看容器中的系统版本"><span class="nav-number">1.</span> <span class="nav-text">查看容器中的系统版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-执行-GUI-程序"><span class="nav-number">2.</span> <span class="nav-text">Docker 执行 GUI 程序</span></a></li></ol></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">BG</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
