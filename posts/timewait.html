@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="play  audio mp3 1ffplay -ar 8000 -ac 1 -i dest_transcode.mp3 pcm_alaw 1ffplay -ar 8000 -ac 1 -f alaw -i test.g711a">
-<meta name="keywords" content="-ffplay -ffmpeg">
+  <meta name="description" content="TIME_WAIT的作用: 12345TIME_WAIT状态存在的理由:可靠地实现TCP全双工连接的终止在进行关闭连接四次挥手协议时，最后的ACK是由主动关闭端发出的，如果这个最终的ACK丢失，服务器将重发最终的FIN，因此客户端必须维护状态信息允许它重发最终的ACK。如果不维持这个状态信息，那么客户端将响应RST分节，服务器将此分节解释成一个错误（在java中会抛出connection res">
+<meta name="keywords" content="LINUX,TCP,TIME_WAIT">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ffplay">
-<meta property="og:url" content="http://yoursite.com/posts/ffplay.html">
+<meta property="og:title" content="TIME_WAIT 过多的解决办法">
+<meta property="og:url" content="http://yoursite.com/posts/timewait.html">
 <meta property="og:site_name" content="饼干 blog">
-<meta property="og:description" content="play  audio mp3 1ffplay -ar 8000 -ac 1 -i dest_transcode.mp3 pcm_alaw 1ffplay -ar 8000 -ac 1 -f alaw -i test.g711a">
+<meta property="og:description" content="TIME_WAIT的作用: 12345TIME_WAIT状态存在的理由:可靠地实现TCP全双工连接的终止在进行关闭连接四次挥手协议时，最后的ACK是由主动关闭端发出的，如果这个最终的ACK丢失，服务器将重发最终的FIN，因此客户端必须维护状态信息允许它重发最终的ACK。如果不维持这个状态信息，那么客户端将响应RST分节，服务器将此分节解释成一个错误（在java中会抛出connection res">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-07-09T08:16:35.981Z">
+<meta property="og:updated_time" content="2020-11-24T03:01:11.870Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ffplay">
-<meta name="twitter:description" content="play  audio mp3 1ffplay -ar 8000 -ac 1 -i dest_transcode.mp3 pcm_alaw 1ffplay -ar 8000 -ac 1 -f alaw -i test.g711a">
+<meta name="twitter:title" content="TIME_WAIT 过多的解决办法">
+<meta name="twitter:description" content="TIME_WAIT的作用: 12345TIME_WAIT状态存在的理由:可靠地实现TCP全双工连接的终止在进行关闭连接四次挥手协议时，最后的ACK是由主动关闭端发出的，如果这个最终的ACK丢失，服务器将重发最终的FIN，因此客户端必须维护状态信息允许它重发最终的ACK。如果不维持这个状态信息，那么客户端将响应RST分节，服务器将此分节解释成一个错误（在java中会抛出connection res">
 
 
 
@@ -115,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/posts/ffplay">
+  <link rel="canonical" href="http://yoursite.com/posts/timewait">
 
 
 
@@ -125,7 +125,7 @@
   };
 </script>
 
-  <title>ffplay | 饼干 blog</title>
+  <title>TIME_WAIT 过多的解决办法 | 饼干 blog</title>
   
 
 
@@ -324,7 +324,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/ffplay.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/timewait.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="BG">
@@ -341,7 +341,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">ffplay
+          <h1 class="post-title" itemprop="name headline">TIME_WAIT 过多的解决办法
 
               
             
@@ -367,24 +367,12 @@
                 
               
 
-              <time title="创建时间：2019-11-14 13:58:06" itemprop="dateCreated datePublished" datetime="2019-11-14T13:58:06+08:00">2019-11-14</time>
+              <time title="创建时间：2020-11-24 10:21:41 / 修改时间：11:01:11" itemprop="dateCreated datePublished" datetime="2020-11-24T10:21:41+08:00">2020-11-24</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-09 16:16:35" itemprop="dateModified" datetime="2020-07-09T16:16:35+08:00">2020-07-09</time>
               
             
           </span>
@@ -418,10 +406,28 @@
       
 
       
-        <h2 id="play-audio"><a href="#play-audio" class="headerlink" title="play  audio"></a>play  audio</h2><p> <code>mp3</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffplay -ar 8000 -ac 1 -i dest_transcode.mp3</span><br></pre></td></tr></table></figure>
-<p><code>pcm_alaw</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffplay -ar 8000 -ac 1 -f alaw -i test.g711a</span><br></pre></td></tr></table></figure>
+        <ol>
+<li><p><code>TIME_WAIT</code>的作用:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">TIME_WAIT状态存在的理由:</span><br><span class="line">可靠地实现TCP全双工连接的终止</span><br><span class="line">在进行关闭连接四次挥手协议时，最后的ACK是由主动关闭端发出的，如果这个最终的ACK丢失，服务器将重发最终的FIN，</span><br><span class="line">因此客户端必须维护状态信息允许它重发最终的ACK。如果不维持这个状态信息，那么客户端将响应RST分节，服务器将此分节解释成一个错误（在java中会抛出connection reset的SocketException)。</span><br><span class="line">因而，要实现TCP全双工连接的正常终止，必须处理终止序列四个分节中任何一个分节的丢失情况，主动关闭的客户端必须维持状态信息进入TIME_WAIT状态。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>大量<code>TIME_WAIT</code>造成的影响:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">在高并发短连接的TCP服务器上，当服务器处理完请求后立刻主动正常关闭连接。</span><br><span class="line">这个场景下会出现大量socket处于TIME_WAIT状态。如果客户端的并发量持续很高，</span><br><span class="line">此时部分客户端就会显示连接不上。</span><br><span class="line">主动正常关闭TCP连接，都会出现TIME_WAIT</span><br><span class="line">高并发可以让服务器在短时间范围内同时占用大量端口，而端口有个0~65535的范围，并不是很多，刨除系统和其他服务要用的，剩下的就更少了</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li><p>查看TCP状态：<code>netstat -n | awk &#39;/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}&#39;</code></p>
+<a id="more"></a>
+<p>状态描述:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CLOSED：无连接是活动的或正在进行</span><br><span class="line">LISTEN：服务器在等待进入呼叫</span><br><span class="line">SYN_RECV：一个连接请求已经到达，等待确认</span><br><span class="line">SYN_SENT：应用已经开始，打开一个连接</span><br><span class="line">ESTABLISHED：正常数据传输状态</span><br><span class="line">FIN_WAIT1：应用说它已经完成</span><br><span class="line">FIN_WAIT2：另一边已同意释放</span><br><span class="line">ITMED_WAIT：等待所有分组死掉</span><br><span class="line">CLOSING：两边同时尝试关闭</span><br><span class="line">TIME_WAIT：另一边已初始化一个释放</span><br><span class="line">LAST_ACK：等待所有分组死掉</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看 SOCKET状态: <code>cat /proc/net/sockstat</code></p>
+</li>
+<li><p>内核优化参数处理<code>TIME_WAIT</code>过多</p>
+<p>编辑内核文件<code>/etc/sysctl.conf</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.tcp_syncookies = 1 表示开启SYN Cookies。当出现SYN等待队列溢出时，启用cookies来处理，可防范少量SYN攻击，默认为0，表示关闭；</span><br><span class="line">net.ipv4.tcp_tw_reuse = 1 表示开启重用。允许将TIME-WAIT sockets重新用于新的TCP连接，默认为0，表示关闭；</span><br><span class="line">net.ipv4.tcp_tw_recycle = 1 表示开启TCP连接中TIME-WAIT sockets的快速回收，默认为0，表示关闭。</span><br><span class="line">net.ipv4.tcp_fin_timeout 修改系默认的 TIMEOUT 时间</span><br></pre></td></tr></table></figure>
+<p>执行 <code>sysctl -p</code> 生效</p>
+</li>
+</ul>
 
       
     </div>
@@ -445,7 +451,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/ffplay-ffmpeg/" rel="tag"># -ffplay -ffmpeg</a>
+            <a href="/tags/LINUX/" rel="tag"># LINUX</a>
+          
+            <a href="/tags/TCP/" rel="tag"># TCP</a>
+          
+            <a href="/tags/TIME-WAIT/" rel="tag"># TIME_WAIT</a>
           
         </div>
       
@@ -458,8 +468,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/posts/cmake_build.html" rel="next" title="cmake build">
-                <i class="fa fa-chevron-left"></i> cmake build
+              <a href="/posts/docker.html" rel="next" title="Docker">
+                <i class="fa fa-chevron-left"></i> Docker
               </a>
             
           </div>
@@ -468,8 +478,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/posts/docker.html" rel="prev" title="Docker">
-                Docker <i class="fa fa-chevron-right"></i>
+              <a href="/posts/grep.html" rel="prev" title="linux cmd">
+                linux cmd <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -514,17 +524,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <div class="site-overview-wrap sidebar-panel">
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -636,23 +637,6 @@
         </div>
       </div>
 
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#play-audio"><span class="nav-number">1.</span> <span class="nav-text">play  audio</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
       
 
       
