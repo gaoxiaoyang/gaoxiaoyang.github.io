@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="使用 Hexo 搭建自己博客">
-<meta name="keywords" content="hexo">
+  <meta name="description" content="压缩 1tar czvf 01.tar.gz 01/  使用多线程压缩 目录01，02，03 1tar cvf - 01/ 02/ 03/ | pigz -6 -p 8 &amp;gt; out.tar.gz -p 指定多核 -6 指定pigz压缩比  压缩的同时删除原文件 1tar czvf 01.tar.gz 01/ --remove-files --remove-files指定压缩的同时，删除原文">
+<meta name="keywords" content="Linux,tar">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/posts/hexo.html">
+<meta property="og:title" content="tar 用法">
+<meta property="og:url" content="http://yoursite.com/posts/tar.html">
 <meta property="og:site_name" content="饼干 blog">
-<meta property="og:description" content="使用 Hexo 搭建自己博客">
+<meta property="og:description" content="压缩 1tar czvf 01.tar.gz 01/  使用多线程压缩 目录01，02，03 1tar cvf - 01/ 02/ 03/ | pigz -6 -p 8 &amp;gt; out.tar.gz -p 指定多核 -6 指定pigz压缩比  压缩的同时删除原文件 1tar czvf 01.tar.gz 01/ --remove-files --remove-files指定压缩的同时，删除原文">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-07-09T08:16:35.982Z">
+<meta property="og:updated_time" content="2020-12-04T02:52:59.553Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="使用 Hexo 搭建自己博客">
+<meta name="twitter:title" content="tar 用法">
+<meta name="twitter:description" content="压缩 1tar czvf 01.tar.gz 01/  使用多线程压缩 目录01，02，03 1tar cvf - 01/ 02/ 03/ | pigz -6 -p 8 &amp;gt; out.tar.gz -p 指定多核 -6 指定pigz压缩比  压缩的同时删除原文件 1tar czvf 01.tar.gz 01/ --remove-files --remove-files指定压缩的同时，删除原文">
 
 
 
@@ -115,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/posts/hexo">
+  <link rel="canonical" href="http://yoursite.com/posts/tar">
 
 
 
@@ -125,7 +125,7 @@
   };
 </script>
 
-  <title>Hexo | 饼干 blog</title>
+  <title>tar 用法 | 饼干 blog</title>
   
 
 
@@ -324,7 +324,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/hexo.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/tar.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="BG">
@@ -341,7 +341,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hexo
+          <h1 class="post-title" itemprop="name headline">tar 用法
 
               
             
@@ -367,24 +367,12 @@
                 
               
 
-              <time title="创建时间：2018-12-21 10:44:49" itemprop="dateCreated datePublished" datetime="2018-12-21T10:44:49+08:00">2018-12-21</time>
+              <time title="创建时间：2020-12-04 10:09:26 / 修改时间：10:52:59" itemprop="dateCreated datePublished" datetime="2020-12-04T10:09:26+08:00">2020-12-04</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-09 16:16:35" itemprop="dateModified" datetime="2020-07-09T16:16:35+08:00">2020-07-09</time>
               
             
           </span>
@@ -418,45 +406,24 @@
       
 
       
-        <p>使用 <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> 搭建自己博客</p>
-<a id="more"></a>
-<h3 id="install-Node"><a href="#install-Node" class="headerlink" title="install Node"></a>install Node</h3><ul>
-<li>Windows 安装 Node，进入 <a href="https://nodejs.org/en/" target="_blank" rel="noopener">nodejs</a> 下载安装</li>
-</ul>
-<h3 id="Node-的淘宝镜像"><a href="#Node-的淘宝镜像" class="headerlink" title="Node 的淘宝镜像"></a>Node 的淘宝镜像</h3> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g cnpm --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
-<h3 id="Install-Hexo-and-initialize-Pages"><a href="#Install-Hexo-and-initialize-Pages" class="headerlink" title="Install Hexo and initialize Pages"></a>Install Hexo and initialize Pages</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-cli -g</span><br><span class="line">$ hexo init Blog</span><br><span class="line">$ <span class="built_in">cd</span> Blog</span><br><span class="line">$ npm install</span><br><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-git"><a href="#Deploy-to-git" class="headerlink" title="Deploy to git"></a>Deploy to git</h3><ul>
-<li><p>在 Github 创建一个名字为 <code>xxx.github.io</code> 的仓库(xxx 修改为你的 Github 名字)</p>
+        <ul>
+<li><p>压缩</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar czvf 01.tar.gz 01/</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>博客地址自动为 <code>xxx.github.io</code></p>
+<li><p>使用多线程压缩 目录<code>01</code>，<code>02</code>，<code>03</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar cvf - 01/ 02/ 03/ | pigz -6 -p 8 &gt; out.tar.gz</span><br></pre></td></tr></table></figure>
+<p><code>-p</code> 指定多核</p>
+<p><code>-6</code> 指定<code>pigz</code>压缩比</p>
 </li>
-<li><p>安装<code>hexo</code> git 插件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+<li><p>压缩的同时删除原文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar czvf 01.tar.gz 01/ --remove-files</span><br></pre></td></tr></table></figure>
+<p><code>--remove-files</code>指定压缩的同时，删除原文件</p>
 </li>
-<li><p>在 <code>Blog/_config.yml</code> 中配置 git</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">    <span class="built_in">type</span>: git</span><br><span class="line">    repo: git@github.com:xxx/xxx.github.io.git</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>发布 <code>注意记得添加github ssh key</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean</span><br><span class="line">$ hexo generate</span><br><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<li><p>解压</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar xzvf 01.tar.gz -C /tmp</span><br></pre></td></tr></table></figure>
+<p><code>-C</code>指定输出目录</p>
 </li>
 </ul>
-<h3 id="Use-image"><a href="#Use-image" class="headerlink" title="Use image"></a>Use image</h3><p>配置<code>Blog/_config.yml</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post_asset_folader: <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>在<code>Blog/source</code> 下创建图片目录， 如<code>imgs</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![](/imgs/christmas.png)</span><br></pre></td></tr></table></figure>
-<h3 id="自定义域名"><a href="#自定义域名" class="headerlink" title="自定义域名"></a>自定义域名</h3><ol>
-<li>在万网的域名解析中把 <code>52bg.org</code> 解析到 <code>192.30.252.154</code></li>
-<li>在 <code>Hexo</code> 博客的 <code>source</code> 目录下创建文件 <code>CNAME</code>，其内容为 <strong><code>52bg.org</code></strong></li>
-<li>发布到<code>github</code> ，就可以用<code>52bg.org</code> 访问博客了</li>
-</ol>
-<h3 id="主页显示摘要"><a href="#主页显示摘要" class="headerlink" title="主页显示摘要"></a>主页显示摘要</h3><p>在 md 中，摘要内容的后面跟上 <code>&lt;!--more--&gt;</code>，否则主页会显示文章的全部内容</p>
 
       
     </div>
@@ -480,7 +447,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hexo/" rel="tag"># hexo</a>
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/tar/" rel="tag"># tar</a>
           
         </div>
       
@@ -493,15 +462,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/posts/disk.html" rel="next" title="Linux 下测试磁盘读写io">
+                <i class="fa fa-chevron-left"></i> Linux 下测试磁盘读写io
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/posts/test-md.html" rel="prev" title="test md">
-                test md <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -545,17 +514,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <div class="site-overview-wrap sidebar-panel">
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -673,23 +633,6 @@
         </div>
       </div>
 
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#install-Node"><span class="nav-number">1.</span> <span class="nav-text">install Node</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Node-的淘宝镜像"><span class="nav-number">2.</span> <span class="nav-text">Node 的淘宝镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-Hexo-and-initialize-Pages"><span class="nav-number">3.</span> <span class="nav-text">Install Hexo and initialize Pages</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">4.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">5.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">6.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-git"><span class="nav-number">7.</span> <span class="nav-text">Deploy to git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Use-image"><span class="nav-number">8.</span> <span class="nav-text">Use image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义域名"><span class="nav-number">9.</span> <span class="nav-text">自定义域名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主页显示摘要"><span class="nav-number">10.</span> <span class="nav-text">主页显示摘要</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
       
 
       
