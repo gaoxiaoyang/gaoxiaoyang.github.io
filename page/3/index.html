@@ -320,6 +320,162 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/show_rgb_opencv.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="BG">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="饼干 blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/posts/show_rgb_opencv.html" class="post-title-link" itemprop="url">show image, convert yuv to rgb by opencv</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-27 12:28:59" itemprop="dateCreated datePublished" datetime="2019-05-27T12:28:59+08:00">2019-05-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-07-09 16:16:35" itemprop="dateModified" datetime="2020-07-09T16:16:35+08:00">2020-07-09</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>下面程序读取camera.yuv ,然后使用<code>Mat</code> 保存，再用<code>cv:cvtColor</code>将<code>yuv</code> 数据转化成<code>rgb</code>显示</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv/cv.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/core/core.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/highgui/highgui.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/imgproc/imgproc.hpp&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> width = <span class="number">1920</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> height = <span class="number">1080</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> framesize = width * height * <span class="number">3</span> / <span class="number">2</span>;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> cv;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">		ifstream fin;</span><br><span class="line">		fin.open(<span class="string">"camera.yuv"</span>, ios_base::in | ios_base::binary);</span><br><span class="line">		<span class="keyword">if</span> (fin.fail())</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">cout</span> &lt;&lt; <span class="string">"the file is error"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">			<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		fin.seekg(<span class="number">0</span>, ios::end);<span class="comment">//设置文件指针到文件流的尾部  </span></span><br><span class="line">		streampos ps = fin.tellg();<span class="comment">//指出当前的文件指针  </span></span><br><span class="line">		<span class="keyword">unsigned</span> <span class="keyword">long</span> NumberPixe = ps;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"file size: "</span> &lt;&lt; ps &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//输出指针的位置  </span></span><br><span class="line">		<span class="keyword">unsigned</span> FrameCount = ps / framesize; <span class="comment">//帧大小  </span></span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"frameNuber: "</span> &lt;&lt; FrameCount; <span class="comment">//输出帧数  </span></span><br><span class="line">		fin.close();</span><br><span class="line">		FILE* fileIn = fopen(<span class="string">"camera.yuv"</span>, <span class="string">"rb+"</span>);</span><br><span class="line">		<span class="keyword">unsigned</span> <span class="keyword">char</span>* pYuvBuf = <span class="keyword">new</span> <span class="keyword">unsigned</span> <span class="keyword">char</span>[framesize]; <span class="comment">//一帧数据大小</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">//存储到图像  </span></span><br><span class="line">		cv::namedWindow(<span class="string">"yuv"</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; FrameCount; ++i)</span><br><span class="line">		&#123;</span><br><span class="line">			fread(pYuvBuf, framesize * <span class="keyword">sizeof</span>(<span class="keyword">unsigned</span> <span class="keyword">char</span>), <span class="number">1</span>, fileIn);</span><br><span class="line">			cv::Mat yuvImg;</span><br><span class="line">			yuvImg.create(height * <span class="number">3</span> / <span class="number">2</span>, width, CV_8UC1);</span><br><span class="line">			<span class="built_in">memcpy</span>(yuvImg.data, pYuvBuf, framesize * <span class="keyword">sizeof</span>(<span class="keyword">unsigned</span> <span class="keyword">char</span>));</span><br><span class="line">			cv::Mat rgbImg;</span><br><span class="line">			cv::cvtColor(yuvImg, rgbImg, CV_YUV2BGR_I420);</span><br><span class="line"></span><br><span class="line">			cv::imshow(<span class="string">"yuv"</span>, yuvImg); <span class="comment">//只显示y分量</span></span><br><span class="line">			cv::imshow(<span class="string">"rgbImg"</span>, rgbImg);</span><br><span class="line"></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"第 %d 帧\n"</span>, i);</span><br><span class="line">			<span class="keyword">int</span> c = waitKey(<span class="number">10000</span>);</span><br><span class="line">			<span class="keyword">if</span> ((<span class="keyword">char</span>)c == <span class="number">27</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		fclose(fileIn);</span><br><span class="line">		cvDestroyWindow(<span class="string">"yuv"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/compiler-online.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -930,172 +1086,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/hexo.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="BG">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="饼干 blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/posts/hexo.html" class="post-title-link" itemprop="url">Hexo</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-12-21 10:44:49" itemprop="dateCreated datePublished" datetime="2018-12-21T10:44:49+08:00">2018-12-21</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2020-07-09 16:16:35" itemprop="dateModified" datetime="2020-07-09T16:16:35+08:00">2020-07-09</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>使用 <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> 搭建自己博客</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/posts/hexo.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1137,7 +1132,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1198,7 +1193,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">21</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1255,7 +1254,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
