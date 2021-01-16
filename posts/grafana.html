@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="环境 Centos7  Grafana7.3.7  Prometheus2.24  下载安装Prometheus123wget https://github.com/prometheus/prometheus/releases/download/v2.24.0/prometheus-2.24.0.linux-386.tar.gztar -xzvf prometheus-2.24.0.linux-3">
+<meta name="keywords" content="Prometheus,Grafana,golang">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Prometheus和Grafana监控golang服务">
+<meta property="og:url" content="http://yoursite.com/posts/grafana.html">
+<meta property="og:site_name" content="饼干 blog">
+<meta property="og:description" content="环境 Centos7  Grafana7.3.7  Prometheus2.24  下载安装Prometheus123wget https://github.com/prometheus/prometheus/releases/download/v2.24.0/prometheus-2.24.0.linux-386.tar.gztar -xzvf prometheus-2.24.0.linux-3">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/imgs/grafana/prometheus-home.png">
+<meta property="og:image" content="http://yoursite.com/imgs/grafana/grafana-home.png">
+<meta property="og:image" content="http://yoursite.com/imgs/grafana/grafana-add-source.png">
+<meta property="og:image" content="http://yoursite.com/imgs/grafana/grafana-mem-panel.png">
+<meta property="og:updated_time" content="2021-01-16T08:42:23.460Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Prometheus和Grafana监控golang服务">
+<meta name="twitter:description" content="环境 Centos7  Grafana7.3.7  Prometheus2.24  下载安装Prometheus123wget https://github.com/prometheus/prometheus/releases/download/v2.24.0/prometheus-2.24.0.linux-386.tar.gztar -xzvf prometheus-2.24.0.linux-3">
+<meta name="twitter:image" content="http://yoursite.com/imgs/grafana/prometheus-home.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/posts/grafana">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>使用Prometheus和Grafana监控golang服务 | 饼干 blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">饼干 blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/grafana.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="BG">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="饼干 blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用Prometheus和Grafana监控golang服务
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-01-16 13:35:40 / 修改时间：16:42:23" itemprop="dateCreated datePublished" datetime="2021-01-16T13:35:40+08:00">2021-01-16</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><ul>
+<li><p>Centos7</p>
+</li>
+<li><p>Grafana7.3.7</p>
+</li>
+<li>Prometheus2.24</li>
+</ul>
+<h3 id="下载安装Prometheus"><a href="#下载安装Prometheus" class="headerlink" title="下载安装Prometheus"></a>下载安装<a href="https://prometheus.io/download/" target="_blank" rel="noopener">Prometheus</a></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/prometheus/prometheus/releases/download/v2.24.0/prometheus-2.24.0.linux-386.tar.gz</span><br><span class="line"></span><br><span class="line">tar -xzvf prometheus-2.24.0.linux-386.tar.gz</span><br></pre></td></tr></table></figure>
+<h4 id="启动-Prometheus"><a href="#启动-Prometheus" class="headerlink" title="启动 Prometheus"></a>启动 <code>Prometheus</code></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./prometheus --config.file=prometheus.yml</span><br></pre></td></tr></table></figure>
+<h4 id="查看是否启动成功-http-ip-9090"><a href="#查看是否启动成功-http-ip-9090" class="headerlink" title="查看是否启动成功 http://ip:9090"></a>查看是否启动成功 <code>http://ip:9090</code></h4><p><img src="../imgs/grafana/prometheus-home.png" alt></p>
+<a id="more"></a>
+<h4 id="修改prometheus-配置文件"><a href="#修改prometheus-配置文件" class="headerlink" title="修改prometheus 配置文件"></a>修改prometheus 配置文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">scrape_configs:</span><br><span class="line">  <span class="comment"># The job name is added as a label `job=&lt;job_name&gt;` to any timeseries scraped from this config.</span></span><br><span class="line">  - job_name: <span class="string">'prometheus'</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># metrics_path defaults to '/metrics'</span></span><br><span class="line">    <span class="comment"># scheme defaults to 'http'.</span></span><br><span class="line"></span><br><span class="line">    static_configs:</span><br><span class="line">    - targets: [<span class="string">'10.11.1.23:8080'</span>] <span class="comment">#采集golang服务数据</span></span><br></pre></td></tr></table></figure>
+<h3 id="下载安装Grafana"><a href="#下载安装Grafana" class="headerlink" title="下载安装Grafana"></a>下载安装<a href="https://grafana.com/grafana/download" target="_blank" rel="noopener">Grafana</a></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://dl.grafana.com/oss/release/grafana-7.3.7-1.x86_64.rpm</span><br><span class="line">sudo yum install grafana-7.3.7-1.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl status grafana-server</span><br><span class="line">systemctl start grafana-server</span><br></pre></td></tr></table></figure>
+<h4 id="配置文件在-etc-sysconfig-grafana-server"><a href="#配置文件在-etc-sysconfig-grafana-server" class="headerlink" title="配置文件在/etc/sysconfig/grafana-server"></a>配置文件在<code>/etc/sysconfig/grafana-server</code></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">GRAFANA_USER=grafana</span><br><span class="line"></span><br><span class="line">GRAFANA_GROUP=grafana</span><br><span class="line"></span><br><span class="line">GRAFANA_HOME=/usr/share/grafana</span><br><span class="line"></span><br><span class="line">LOG_DIR=/var/<span class="built_in">log</span>/grafana</span><br><span class="line"></span><br><span class="line">DATA_DIR=/var/lib/grafana</span><br><span class="line"></span><br><span class="line">MAX_OPEN_FILES=10000</span><br><span class="line"></span><br><span class="line">CONF_DIR=/etc/grafana</span><br><span class="line"></span><br><span class="line">CONF_FILE=/etc/grafana/grafana.ini</span><br><span class="line"></span><br><span class="line">RESTART_ON_UPGRADE=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line">PLUGINS_DIR=/var/lib/grafana/plugins</span><br><span class="line"></span><br><span class="line">PROVISIONING_CFG_DIR=/etc/grafana/provisioning</span><br><span class="line"></span><br><span class="line"><span class="comment"># Only used on systemd systems</span></span><br><span class="line">PID_FILE_DIR=/var/run/grafana</span><br></pre></td></tr></table></figure>
+<h4 id="访问Grafana-http-ip-3000"><a href="#访问Grafana-http-ip-3000" class="headerlink" title="访问Grafana http://ip:3000"></a>访问<code>Grafana</code> <code>http://ip:3000</code></h4><p><img src="../imgs/grafana/grafana-home.png" alt></p>
+<h4 id="添加Data-Source"><a href="#添加Data-Source" class="headerlink" title="添加Data Source"></a>添加Data Source</h4><p><img src="../imgs/grafana/grafana-add-source.png" alt></p>
+<h4 id="添加-Panel"><a href="#添加-Panel" class="headerlink" title="添加 Panel"></a>添加 Panel</h4><p><img src="../imgs/grafana/grafana-mem-panel.png" alt></p>
+<h3 id="golang-示例代码"><a href="#golang-示例代码" class="headerlink" title="golang 示例代码"></a>golang 示例代码</h3><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"github.com/prometheus/client_golang/prometheus"</span></span><br><span class="line">    <span class="string">"github.com/prometheus/client_golang/prometheus/promhttp"</span></span><br><span class="line">    <span class="string">"github.com/shirou/gopsutil/v3/mem"</span></span><br><span class="line">    <span class="string">"log"</span></span><br><span class="line">    <span class="string">"net/http"</span></span><br><span class="line">    <span class="string">"time"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    http.Handle(<span class="string">"/metrics"</span>, promhttp.Handler())</span><br><span class="line">    diskPercent := prometheus.NewGaugeVec(prometheus.GaugeOpts&#123;</span><br><span class="line">        Name: <span class="string">"memory_percent"</span>,</span><br><span class="line">        Help: <span class="string">"memory use percent"</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    []<span class="keyword">string</span> &#123;<span class="string">"percent"</span>&#125;)</span><br><span class="line">    prometheus.MustRegister(diskPercent)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// start web</span></span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        log.Println(<span class="string">"ListenAndServe at :8080"</span>)</span><br><span class="line">        err := http.ListenAndServe(<span class="string">":8080"</span>, <span class="literal">nil</span>)</span><br><span class="line">        <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">            log.Fatal(<span class="string">"ListenAndServe: "</span>, err)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;()</span><br><span class="line">    <span class="comment">//收集内存使用的百分比</span></span><br><span class="line">    <span class="keyword">for</span> &#123;</span><br><span class="line">        log.Println(<span class="string">"start collect memory used percent!"</span>)</span><br><span class="line">        v, err := mem.VirtualMemory()</span><br><span class="line">        <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">            log.Printf(<span class="string">"get memeory use percent error: %s"</span>, err)</span><br><span class="line">        &#125;</span><br><span class="line">        usedPercent := v.UsedPercent</span><br><span class="line">        log.Println(<span class="string">"get memory use percent:"</span>, usedPercent)</span><br><span class="line">        diskPercent.WithLabelValues(<span class="string">"usedMemory"</span>).Set(usedPercent)</span><br><span class="line">        time.Sleep(time.Second*<span class="number">2</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h4>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Prometheus/" rel="tag"># Prometheus</a>
+          
+            <a href="/tags/Grafana/" rel="tag"># Grafana</a>
+          
+            <a href="/tags/golang/" rel="tag"># golang</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/gcc-update.html" rel="next" title="CentOS 6 升级GCC">
+                <i class="fa fa-chevron-left"></i> CentOS 6 升级GCC
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">BG</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">26</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/gaoxiaoyang" title="GitHub &rarr; https://github.com/gaoxiaoyang" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载安装Prometheus"><span class="nav-number">2.</span> <span class="nav-text">下载安装Prometheus</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#启动-Prometheus"><span class="nav-number">2.1.</span> <span class="nav-text">启动 Prometheus</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看是否启动成功-http-ip-9090"><span class="nav-number">2.2.</span> <span class="nav-text">查看是否启动成功 http://ip:9090</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改prometheus-配置文件"><span class="nav-number">2.3.</span> <span class="nav-text">修改prometheus 配置文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载安装Grafana"><span class="nav-number">3.</span> <span class="nav-text">下载安装Grafana</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#启动"><span class="nav-number">3.1.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置文件在-etc-sysconfig-grafana-server"><span class="nav-number">3.2.</span> <span class="nav-text">配置文件在/etc/sysconfig/grafana-server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#访问Grafana-http-ip-3000"><span class="nav-number">3.3.</span> <span class="nav-text">访问Grafana http://ip:3000</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加Data-Source"><span class="nav-number">3.4.</span> <span class="nav-text">添加Data Source</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加-Panel"><span class="nav-number">3.5.</span> <span class="nav-text">添加 Panel</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#golang-示例代码"><span class="nav-number">4.</span> <span class="nav-text">golang 示例代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#未完待续"><span class="nav-number">4.1.</span> <span class="nav-text">未完待续</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">BG</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
