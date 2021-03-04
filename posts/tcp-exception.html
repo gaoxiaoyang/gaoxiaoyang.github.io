@@ -96,18 +96,25 @@
 
 
 
-  <meta name="description" content="一.  hdparm 使用方法如下: 12345[root@cn13 ls]# hdparm -Tt /dev/vdc1 /dev/vdc1:Timing cached reads:   13200 MB in  2.00 seconds = 6605.18 MB/secTiming buffered disk reads: 296 MB in  3.01 seconds =  98.43 MB/">
-<meta name="keywords" content="disk,linux">
+  <meta name="description" content="TCP 建立连接时会进行三次握手TCP 断开时会进行四次挥手">
+<meta name="keywords" content="TCP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux 下测试磁盘读写io">
-<meta property="og:url" content="http://yoursite.com/posts/disk.html">
+<meta property="og:title" content="TCP 通信异常情况分析">
+<meta property="og:url" content="http://yoursite.com/posts/tcp-exception.html">
 <meta property="og:site_name" content="饼干 blog">
-<meta property="og:description" content="一.  hdparm 使用方法如下: 12345[root@cn13 ls]# hdparm -Tt /dev/vdc1 /dev/vdc1:Timing cached reads:   13200 MB in  2.00 seconds = 6605.18 MB/secTiming buffered disk reads: 296 MB in  3.01 seconds =  98.43 MB/">
+<meta property="og:description" content="TCP 建立连接时会进行三次握手TCP 断开时会进行四次挥手">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-01-12T02:29:22.788Z">
+<meta property="og:image" content="http://yoursite.com/imgs/tcp/tcp_connect_no_port.jpg">
+<meta property="og:image" content="http://yoursite.com/imgs/tcp/tcp_connect_err.jpg">
+<meta property="og:image" content="http://yoursite.com/imgs/tcp/tcpclient_send.jpg">
+<meta property="og:image" content="http://yoursite.com/imgs/tcp/tcpclient_send_rst.png">
+<meta property="og:image" content="http://yoursite.com/imgs/tcp/exception2-tcpclient_send.png">
+<meta property="og:image" content="http://yoursite.com/imgs/tcp/exception2-wireshark.png">
+<meta property="og:updated_time" content="2021-03-04T08:41:28.483Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux 下测试磁盘读写io">
-<meta name="twitter:description" content="一.  hdparm 使用方法如下: 12345[root@cn13 ls]# hdparm -Tt /dev/vdc1 /dev/vdc1:Timing cached reads:   13200 MB in  2.00 seconds = 6605.18 MB/secTiming buffered disk reads: 296 MB in  3.01 seconds =  98.43 MB/">
+<meta name="twitter:title" content="TCP 通信异常情况分析">
+<meta name="twitter:description" content="TCP 建立连接时会进行三次握手TCP 断开时会进行四次挥手">
+<meta name="twitter:image" content="http://yoursite.com/imgs/tcp/tcp_connect_no_port.jpg">
 
 
 
@@ -115,7 +122,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/posts/disk">
+  <link rel="canonical" href="http://yoursite.com/posts/tcp-exception">
 
 
 
@@ -125,7 +132,7 @@
   };
 </script>
 
-  <title>Linux 下测试磁盘读写io | 饼干 blog</title>
+  <title>TCP 通信异常情况分析 | 饼干 blog</title>
   
 
 
@@ -324,7 +331,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/disk.html">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/posts/tcp-exception.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="BG">
@@ -341,7 +348,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Linux 下测试磁盘读写io
+          <h1 class="post-title" itemprop="name headline">TCP 通信异常情况分析
 
               
             
@@ -367,24 +374,12 @@
                 
               
 
-              <time title="创建时间：2020-12-02 14:53:34" itemprop="dateCreated datePublished" datetime="2020-12-02T14:53:34+08:00">2020-12-02</time>
+              <time title="创建时间：2021-03-04 15:03:59 / 修改时间：16:41:28" itemprop="dateCreated datePublished" datetime="2021-03-04T15:03:59+08:00">2021-03-04</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2021-01-12 10:29:22" itemprop="dateModified" datetime="2021-01-12T10:29:22+08:00">2021-01-12</time>
               
             
           </span>
@@ -418,31 +413,36 @@
       
 
       
-        <h3 id="一-hdparm"><a href="#一-hdparm" class="headerlink" title="一.  hdparm"></a>一.  hdparm</h3><ol>
-<li><p>使用方法如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@cn13 ls]<span class="comment"># hdparm -Tt /dev/vdc1 </span></span><br><span class="line"></span><br><span class="line">/dev/vdc1:</span><br><span class="line">Timing cached reads:   13200 MB <span class="keyword">in</span>  2.00 seconds = 6605.18 MB/sec</span><br><span class="line">Timing buffered disk reads: 296 MB <span class="keyword">in</span>  3.01 seconds =  98.43 MB/sec</span><br></pre></td></tr></table></figure>
+        <h4 id="TCP-建立连接时会进行三次握手"><a href="#TCP-建立连接时会进行三次握手" class="headerlink" title="TCP 建立连接时会进行三次握手"></a>TCP 建立连接时会进行三次握手</h4><h4 id="TCP-断开时会进行四次挥手"><a href="#TCP-断开时会进行四次挥手" class="headerlink" title="TCP 断开时会进行四次挥手"></a>TCP 断开时会进行四次挥手</h4><a id="more"></a>
+<h4 id="TCP-异常情况"><a href="#TCP-异常情况" class="headerlink" title="TCP 异常情况"></a>TCP 异常情况</h4><ol>
+<li><p><strong>试图与一个不存在的端口建立连接 (主机正常)</strong></p>
+<p>这种情况我们的客户端通常会收到如下异常信息:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Connection refused（连接拒绝）</span><br></pre></td></tr></table></figure>
+<p>wireshark抓包如下, 可以看的RST报文<br><img src="..\imgs\tcp\tcp_connect_no_port.jpg" alt></p>
+</li>
+<li><p><strong>试图与一个某端口建立连接但该主机已经宕机 (主机宕机)</strong></p>
+<p>这也是一种比较常见的情况，当某台服务器主机宕机了，而客户端并不知道，仍然尝试去与其建立连接。这种场景也是分为2种情况的，一种是刚刚宕机，另外一种是宕机了很长时间。<strong>为什么要分这2种情况？</strong></p>
+<p>这主要根ARP协议有关系，ARP会在本地缓存失效，TCP客户端就无法想目的服务端发送数据包了。</p>
+<p>了解了上述情况，我们分析一下刚刚宕机的情况，此时客户端是可以向服务端发送数据包的。但是由于服务器宕机，因此不会给客户端发送任何回复<br><img src="..\imgs\tcp\tcp_connect_err.jpg" alt></p>
+<p>由于客户端并不知道服务端宕机，因此会重复发送SYN数据包，如图6所示，可以看到客户端每隔几秒会向服务端发送一个SYN数据包。这里面具体的时间是跟TCP协议相关的，具体时间不同的操作系统实现可能稍有不同</p>
+</li>
+<li><p><strong>建立连接时，服务器应用被阻塞 (或者僵死)</strong></p>
 </li>
 </ol>
-<h3 id="二-dd"><a href="#二-dd" class="headerlink" title="二. dd"></a>二. dd</h3><ol>
-<li>首先了解两特殊设备</li>
-</ol>
-<ul>
-<li>/dev/null 伪设备, 回收站, 写该文件不会产生IO</li>
-<li>/dev/zero 伪设备, 会产生空字符流, 对它不会产生IO</li>
-</ul>
-<ol start="2">
-<li>测试方法</li>
-</ol>
-<ul>
-<li><p>测试磁盘的IO写速度, 如果要测试实际速度 还要在末尾加上 oflag=direct测到的才是真实的IO速度</p>
-   <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@lbs13 ls]<span class="comment"># time dd if=/dev/zero of=test.dbf bs=8k count=300000</span></span><br><span class="line"> 300000+0 records <span class="keyword">in</span></span><br><span class="line">300000+0 records out</span><br><span class="line">2457600000 bytes (2.5 GB) copied, 5.06596 s, 485 MB/s</span><br><span class="line"></span><br><span class="line">real	0m5.095s</span><br><span class="line">user	0m0.034s</span><br><span class="line">sys	    0m4.785s</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<ul>
-<li><p>测试磁盘的IO读速度</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@cnsqwllbs13 lbs]<span class="comment"># dd if=test.dbf bs=8k count=300000 of=/dev/null </span></span><br><span class="line">300000+0 records <span class="keyword">in</span></span><br><span class="line">300000+0 records out</span><br><span class="line">2457600000 bytes (2.5 GB) copied, 1.89748 s, 1.3 GB/s</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
+<h4 id="异常一-服务进程crash"><a href="#异常一-服务进程crash" class="headerlink" title="异常一.  服务进程crash"></a>异常一.  服务进程crash</h4><p>我们分别写客户端和服务端的程序，客户端不断的发送数据，服务端接收数据。异常的模拟很简单，我们可以在服务端制造一个指针访问异常。此时服务端的程序就会crash掉。然后我们观察客户端的表现。先上结果，客户端的表现如下图所示<br><img src="..\imgs\tcp\tcpclient_send.jpg" alt></p>
+<p>可以看到客户端被reset掉了。我们在结合通过wireshark抓获的此时的数据报文内容，可以看到是一个RST报文</p>
+<p><img src="..\imgs\tcp\tcpclient_send_rst.png" alt></p>
+<p>回忆一下什么情况下服务端会发送RST报文。这种场景跟我们前面介绍的服务端没有监听的情况是类似的。由于服务端程序crash了，此时在操作系统中的套接字数据结构已经被释放，因此在协议层收到数据包的时候无法找到对应的套接字进行处理，于是发送了一个RST报文</p>
+<h4 id="异常二-手动杀死服务进程"><a href="#异常二-手动杀死服务进程" class="headerlink" title="异常二. 手动杀死服务进程"></a>异常二. 手动杀死服务进程</h4><p>也是线上比较常见的操作，当一个服务上线时，运维总是会先把旧的进程杀死，然后再启动新的进程。<strong>那么在这个过程中TCP连接又会发生了什么呢？是否会像上一种情况一样被RST呢？</strong>同样，我们先看一下结果，如下是客户端的情况<br><img src="..\imgs\tcp\exception2-tcpclient_send.png" alt></p>
+<p>从上面错误码来看是管道破裂，其实也就是连接被中断了。我们再看一下通过wireshark的抓包结果可以看出服务端发送了一个FIN报文，这个报文表示服务端发起了关闭的请求。而接下来的一个报文是客户端对该请求的确认</p>
+<p><img src="..\imgs\tcp\exception2-wireshark.png" alt></p>
+<p>所以，从上面客户端的错误码和抓包我们可以知道，在kill进程时TCP协议栈是能够感知到的，并且发送的FIN报文</p>
+<p>我们再进一步的思考一下，<strong>为什么kill进程会有FIN呢？这个与前面crash的差异在哪？</strong>其实kill进程是通过shell想内核发送了SIGKILL或者SIGTERM，内核接收到该信号之后会进行相应的扫尾工作，因此可以看到服务端发送了FIN报文</p>
+<h4 id="异常三-服务进程所在的主机关机"><a href="#异常三-服务进程所在的主机关机" class="headerlink" title="异常三.  服务进程所在的主机关机"></a>异常三.  服务进程所在的主机关机</h4><p>主机关机（这里指手动关机）的情况与进程被kill是类似的。这时因为在系统关闭时，init进程会给所有进程发送SIGTERM信号，等待一段时间（5~20秒），然后再给所有仍在运行的进程发送SIGKILL信号。当服务器进程死掉时，会关闭所有文件描述符。带来的影响和上面杀死server相同</p>
+<h4 id="异常四-服务进程所在的主机宕机"><a href="#异常四-服务进程所在的主机宕机" class="headerlink" title="异常四. 服务进程所在的主机宕机"></a>异常四. 服务进程所在的主机宕机</h4><p>这是我们线上另一种比较常见的状况。即使宕机是一个小概率事件，线上几千台服务器动不动一两台挂掉也是常有的事。这里挂掉其实包括2种情况，<strong>一种是内核panic，另外一种情况是出现了掉电</strong>。对于内核panic的情况不会像关机那样会预先杀死上面的进程，而是突然性的。那么此时我们的客户端准备给服务器端发送一个请求，它由write写入内核，由TCP作为一个报文发出，但因为主机已经挂掉，因此客户端无法收到ACK。于是客户端TCP持续重传分节，试图从服务器上接收一个ACK，然而服务器始终不能应答，重传数次之后，<strong>大约几分钟才停止</strong>，之后返回一个ETIMEDOUT错误。在这种情况下，如果我们调用的是同步发送接口，则在发送缓冲区慢的情况下会阻塞在这里，导致程序阻塞。</p>
+<p>这个时间真的很长，<strong>对于某些应用这种长时间的卡顿是不能接受的</strong>。因此，需要一种手段处理这种情况，在套接字接口中可以通过SO_SNDTIMEO标记进行设置。但是有利也有弊，如果设置了该参数，可能会出现这的数据发送超时的情况，进而出现向服务端发送重复数据的情况，此时需要服务端做去重处理</p>
+<h4 id="异常五-服务进程所在的主机宕机后重启"><a href="#异常五-服务进程所在的主机宕机后重启" class="headerlink" title="异常五.  服务进程所在的主机宕机后重启"></a>异常五.  服务进程所在的主机宕机后重启</h4><p>在客户端发出请求前，服务器端主机经历了<strong>宕机—重启</strong>的过程。当客户端TCP把分节发送到服务器端所在的主机，服务器端所在主机的TCP丢失了崩溃前所有连接信息，即TCP收到了一个根本不存在连接上（也就是我们前文介绍的查找不到socket数据结构）的报文，所以会响应一个RST分节。</p>
+<p>至此，关于TCP协议中各种异常情况介绍完了，详细了解这些内容后对后续线上问题的分析和解决会有很大的帮助。当然，也有可能还有其它本文没有介绍到的异常情况</p>
 
       
     </div>
@@ -466,9 +466,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/disk/" rel="tag"># disk</a>
-          
-            <a href="/tags/linux/" rel="tag"># linux</a>
+            <a href="/tags/TCP/" rel="tag"># TCP</a>
           
         </div>
       
@@ -481,8 +479,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/posts/fabric.html" rel="next" title="python 远程部署 Fabric">
-                <i class="fa fa-chevron-left"></i> python 远程部署 Fabric
+              <a href="/posts/grafana.html" rel="next" title="使用Prometheus和Grafana监控golang服务">
+                <i class="fa fa-chevron-left"></i> 使用Prometheus和Grafana监控golang服务
               </a>
             
           </div>
@@ -490,10 +488,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/posts/tar.html" rel="prev" title="tar 用法">
-                tar 用法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -686,7 +680,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-hdparm"><span class="nav-number">1.</span> <span class="nav-text">一.  hdparm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-dd"><span class="nav-number">2.</span> <span class="nav-text">二. dd</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP-建立连接时会进行三次握手"><span class="nav-number">1.</span> <span class="nav-text">TCP 建立连接时会进行三次握手</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP-断开时会进行四次挥手"><span class="nav-number">2.</span> <span class="nav-text">TCP 断开时会进行四次挥手</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP-异常情况"><span class="nav-number">3.</span> <span class="nav-text">TCP 异常情况</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常一-服务进程crash"><span class="nav-number">4.</span> <span class="nav-text">异常一.  服务进程crash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常二-手动杀死服务进程"><span class="nav-number">5.</span> <span class="nav-text">异常二. 手动杀死服务进程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常三-服务进程所在的主机关机"><span class="nav-number">6.</span> <span class="nav-text">异常三.  服务进程所在的主机关机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常四-服务进程所在的主机宕机"><span class="nav-number">7.</span> <span class="nav-text">异常四. 服务进程所在的主机宕机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常五-服务进程所在的主机宕机后重启"><span class="nav-number">8.</span> <span class="nav-text">异常五.  服务进程所在的主机宕机后重启</span></a></li></ol></div>
             
 
           </div>
