@@ -709,7 +709,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-01-12 10:31:09" itemprop="dateModified" datetime="2021-01-12T10:31:09+08:00">2021-01-12</time>
+                <time title="修改时间：2021-06-04 16:36:53" itemprop="dateModified" datetime="2021-06-04T16:36:53+08:00">2021-06-04</time>
               
             
           </span>
@@ -753,6 +753,10 @@
 <li><code>nohup</code> 后台启动</li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> nohup sh test.sh param1 param2 &gt;&gt; nohup.out 2&gt;&amp;1 &amp;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>循环读取文件每一行，并执行指令</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat vins.txt | <span class="keyword">while</span> <span class="built_in">read</span> i;<span class="keyword">do</span> <span class="built_in">echo</span> -n <span class="string">"hget XNY.CARINFO "</span><span class="variable">$i</span> | redis-cli -n 1 -h 10.20.170.5 | ./jq .vin,.uuid ; <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
 
           
         
